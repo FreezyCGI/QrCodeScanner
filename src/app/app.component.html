@@ -1,21 +1,29 @@
-<webcam *ngIf="webcamEnabled" [videoOptions]="mediaTrackConstraints"  [imageQuality]="1" [width]="400" [height]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+<div class="contentContainer">
+  <h1>QrCode and Text recognizer</h1>
 
-<div>
-  <input type="button" value="Capture" (click)="triggerSnapshot()">
+
+  <div (mousemove)="mouseMoved($event)">
+    <webcam *ngIf="webcamEnabled"  [videoOptions]="mediaTrackConstraints" [imageQuality]="1" [width]="400" [height]="400"
+      [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+  </div>
+
+  <div class="buttonsContainer">
+    <p-button [disabled]="!webcamEnabled" label="Capture" (click)="triggerSnapshot()"></p-button>
+    <p-button label="On/Off" (click)="webcamEnabled = !webcamEnabled"></p-button>
+  </div>
+
+  <p>
+    x: {{mousePos.x}} y: {{mousePos.y}}
+  </p>
+
+  <p *ngFor="let cornerPoint of webCamResult?.cornerPoints">x: {{cornerPoint.x}} y: {{cornerPoint.y}}</p>
+  <p-panel header="Recognized Text" [toggleable]="true">
+    <div *ngFor="let line of recognizedText">
+      <p *ngIf="line.confidence > 70">
+        {{line.text}}
+      </p>   
+    </div>
+  </p-panel>
+
+  <!-- <img [src]="webCamImageAsUrl"> -->
 </div>
-
-<div>
-  <input type="button" value="On/Off" (click)="webcamEnabled = !webcamEnabled">
-</div>
-
-<p>
-  x: {{mousePos.x}} y: {{mousePos.y}}
-</p>
-
-<p *ngFor="let cornerPoint of webCamResult?.cornerPoints">x: {{cornerPoint.x}} y: {{cornerPoint.y}}</p>
-<p> Recognized Text: </p>
-<p *ngFor="let line of recognizedText">
- {{line.text}}
-</p>
-
-<!-- <img [src]="webCamImageAsUrl"> -->
