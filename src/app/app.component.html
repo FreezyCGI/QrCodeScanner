@@ -1,4 +1,4 @@
-<webcam *ngIf="webcamEnabled" [width]="400" [height]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+<webcam *ngIf="webcamEnabled" [videoOptions]="mediaTrackConstraints"  [imageQuality]="1" [width]="400" [height]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
 
 <div>
   <input type="button" value="Capture" (click)="triggerSnapshot()">
@@ -13,3 +13,9 @@
 </p>
 
 <p *ngFor="let cornerPoint of webCamResult?.cornerPoints">x: {{cornerPoint.x}} y: {{cornerPoint.y}}</p>
+<p> Recognized Text: </p>
+<p *ngFor="let line of recognizedText">
+ {{line.text}}
+</p>
+
+<!-- <img [src]="webCamImageAsUrl"> -->
