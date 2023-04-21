@@ -2,9 +2,22 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+    margin: 1em;
 }
 
 .buttonsContainer{
     display: flex;
     gap: 1em;
+}
+
+.progressSpinnerDiv{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.progressSpinner{
+    position: relative;
+    left: 50%;
+    top: 50%;
 }

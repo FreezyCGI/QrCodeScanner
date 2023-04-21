@@ -1,5 +1,6 @@
 import { Component, HostListener, NgZone } from '@angular/core';
 import { WebcamImage } from 'ngx-webcam';
+import { MessageService } from 'primeng/api';
 import QrScanner from 'qr-scanner';
 import { interval, Observable, scan, Subject } from 'rxjs';
 import { Tesseract } from 'tesseract.ts';
@@ -19,7 +20,11 @@ export class AppComponent {
 
   public mediaTrackConstraints: MediaTrackConstraints = { width: { min: 1920 }, height: { min: 1080 } }
 
-  constructor(private zone: NgZone) { }
+  scanForTextInProgress = false;
+  scanForQrCodeInProgress = false;
+
+  constructor(private zone: NgZone,
+    private messageService: MessageService) { }
 
   ngOnInit() {
     // const source = interval(500);
@@ -59,8 +64,6 @@ export class AppComponent {
     this.ScanForText(webcamImage);
   }
 
-  scanForTextInProgress = false;
-  scanForQrCodeInProgress = false;
 
   ScanForText(webcamImage: WebcamImage) {
     if (this.scanForTextInProgress)
@@ -98,11 +101,16 @@ export class AppComponent {
       return;
 
     this.webCamResult = result;
+    this.showQrCodeFound();
     console.log(result)
   }
 
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
+  }
+
+  showQrCodeFound() {
+    this.messageService.add({ severity: 'success', summary: 'Qr Code found' });
   }
 }
 

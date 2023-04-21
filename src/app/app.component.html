@@ -1,3 +1,10 @@
+
+<p-blockUI [blocked]="scanForQrCodeInProgress"></p-blockUI>
+<div class="progressSpinnerDiv">
+  <p-progressSpinner *ngIf="scanForQrCodeInProgress" class="progressSpinner"></p-progressSpinner>
+</div>
+
+
 <div class="contentContainer">
   <h1>QrCode and Text recognizer</h1>
 
@@ -8,7 +15,7 @@
   </div>
 
   <div class="buttonsContainer">
-    <p-button [disabled]="!webcamEnabled" label="Capture" (click)="triggerSnapshot()"></p-button>
+    <p-button [disabled]="!webcamEnabled || scanForQrCodeInProgress" label="Capture" (click)="triggerSnapshot()"></p-button>
     <p-button label="On/Off" (click)="webcamEnabled = !webcamEnabled"></p-button>
   </div>
 
@@ -16,14 +23,20 @@
     x: {{mousePos.x}} y: {{mousePos.y}}
   </p>
 
-  <p *ngFor="let cornerPoint of webCamResult?.cornerPoints">x: {{cornerPoint.x}} y: {{cornerPoint.y}}</p>
-  <p-panel header="Recognized Text" [toggleable]="true">
+  <div *ngIf="webCamResult">
+    <h2>QrCode Result:</h2>
+    <div *ngFor="let cornerPoint of webCamResult?.cornerPoints">x: {{cornerPoint.x}} y: {{cornerPoint.y}}</div>
+  </div>
+  
+  <p-panel header="Recognized Text" [toggleable]="true" *ngIf="recognizedText.length > 0">
     <div *ngFor="let line of recognizedText">
-      <p *ngIf="line.confidence > 70">
+      <div *ngIf="line.confidence > 70">
         {{line.text}}
-      </p>   
+      </div>   
     </div>
   </p-panel>
 
   <!-- <img [src]="webCamImageAsUrl"> -->
 </div>
+
+<p-toast position="bottom-center"></p-toast>

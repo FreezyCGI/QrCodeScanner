@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
+import { BlockUIModule } from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent
@@ -16,9 +20,12 @@ import { PanelModule } from 'primeng/panel';
     WebcamModule,
     BrowserAnimationsModule,
     ButtonModule,
-    PanelModule
+    PanelModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
