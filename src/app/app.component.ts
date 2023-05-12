@@ -92,7 +92,8 @@ export class AppComponent {
 
     let result = await QrScanner.scanImage(webcamImage.imageAsDataUrl, { returnDetailedScanResult: true })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+          this.showQrCodeNotFound();
       }).finally(() => {
         this.scanForQrCodeInProgress = false;
       })
@@ -111,6 +112,9 @@ export class AppComponent {
 
   showQrCodeFound() {
     this.messageService.add({ severity: 'success', summary: 'Qr Code found' });
+  }
+  showQrCodeNotFound(){
+    this.messageService.add({ severity: 'error', summary: 'Qr Code not found' });
   }
 }
 
